@@ -7,7 +7,7 @@ import { useDispatch,useSelector } from 'react-redux';
 
 export default function HomeScreen() {
   const dispatch = useDispatch()
-  const productList = useSelector(state => state.productList);
+  const productList = useSelector((state )=> state.productList);
   const { loading, error, products } = productList;
 
   useEffect(() => {
@@ -16,14 +16,14 @@ export default function HomeScreen() {
     return (
        <div>
          {
-           loading ? (<LoadingBox></LoadingBox>) :
+           loading ? (<LoadingBox />) :
            error ? (<MessageBox variant="danger">{error}</MessageBox>):
            (
               <div className="row center">
               {
-                products.map(product => (
+                products.map(product => 
                 <Product key={product._id} product={product} />
-                ))
+                )
               }
             </div>
            )
