@@ -1,20 +1,20 @@
 import express from 'express'
-import data from './data.js'
+import mongoose from 'mongoose';
+import productRouter from './routers/productRouter.js';
+import userRouter from './routers/userRouter.js'
+
 
 const app = express();
+app.use(express.json());
+mongoose.connect(process.env.MONGO_URI || "mongodb+srv://bijay:J%40nejack1@amazona-clone.ksamx.mongodb.net/amazona?retryWrites=true&w=majority")
 
-app.get('/api/products/:id', (req, res) => {
-    const product = data.products.find((x) => x._id === req.params.id);
-    if(product){
-        res.send(product)
-    }else{
-        res.status(404).send({message: "Product Not Found"})
-    }
+app.use('/api/products', productRouter)
+app.use('/api/user', userRouter)
+
+
+app.use((err,req,res,next) => {
+    res.status(500).send({message: err.message})
 })
-
-app.get('/api/products', (req,res) => {
-    res.send(data.products);
-});
 
 app.get('/', (req,res) => {
     res.send('Server is ready');
